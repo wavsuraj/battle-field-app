@@ -1,51 +1,69 @@
 import React, { Component } from 'react';
-import PropTypes from 'prop-types';
+import List from './List';
+import lodash from 'lodash';
 
 export class Autocomplete extends Component {
-    static propTypes = {
-        options: PropTypes.instanceOf(Array).isRequired
-    };
-    state = {
-        activeOption: 0,
-        filteredOptions: [],
-        showOptions: false,
-        userInput: ''
+    constructor() {
+        super();
+        this.state = {
+            activeOption: 0,
+            filteredOptions: [],
+            showListComponent: false,
+            userInput: ''
+        };
+    }
+    makeApiCall = searchInput => {
+        let searchUrl = `http://localhost:5000/searchBySearchString`;
+        const requestOptions = {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ searchString: searchInput })
+        };
+        fetch(searchUrl, requestOptions)
+            .then(response => response.json())
+            .then(data => {
+                // console.log('Request success: ', data);
+                data = lodash.map(data, function (object) {
+                    return lodash.omit(object, ['_id']);
+                });
+                data = lodash.orderBy(data, ['location'], ['asc']);
+                const filteredOptions = data;
+                this.setState({
+                    activeOption: 0,
+                    filteredOptions,
+                    showListComponent: true,
+                    userInput: searchInput
+                });
+            })
+
+            .catch(function (error) {
+                // console.log('Request failure: ', error);
+            });
+
     };
 
     onChange = (e) => {
-        console.log('onChanges');
-
-        const { options } = this.props;
+        // console.log('onChanges');
         const userInput = e.currentTarget.value;
-
-        const filteredOptions = options.filter(
-            (optionName) =>
-                optionName.toLowerCase().indexOf(userInput.toLowerCase()) > -1
-        );
-
-        this.setState({
-            activeOption: 0,
-            filteredOptions,
-            showOptions: true,
-            userInput: e.currentTarget.value
-        });
+        if (userInput && userInput.length) {
+            this.makeApiCall(userInput);
+        } else {
+            this.setState({
+                activeOption: 0,
+                filteredOptions: [],
+                showListComponent: false,
+                userInput: ''
+            });
+        }
     };
 
-    onClick = (e) => {
-        this.setState({
-            activeOption: 0,
-            filteredOptions: [],
-            showOptions: false,
-            userInput: e.currentTarget.innerText
-        });
-    };
+
     onKeyDown = (e) => {
         const { activeOption, filteredOptions } = this.state;
 
         if (e.keyCode === 13) {
             this.setState({
                 activeOption: 0,
-                showOptions: false,
                 userInput: filteredOptions[activeOption]
             });
         } else if (e.keyCode === 38) {
@@ -55,7 +73,7 @@ export class Autocomplete extends Component {
             this.setState({ activeOption: activeOption - 1 });
         } else if (e.keyCode === 40) {
             if (activeOption === filteredOptions.length - 1) {
-                console.log(activeOption);
+                // console.log(activeOption);
                 return;
             }
             this.setState({ activeOption: activeOption + 1 });
@@ -65,50 +83,31 @@ export class Autocomplete extends Component {
     render() {
         const {
             onChange,
-            onClick,
             onKeyDown,
 
-            state: { activeOption, filteredOptions, showOptions, userInput }
+            state: { filteredOptions, userInput }
         } = this;
-        let optionList;
-        if (showOptions && userInput) {
-            if (filteredOptions.length) {
-                optionList = (
-                    <ul className="options">
-                        {filteredOptions.map((optionName, index) => {
-                            let className;
-                            if (index === activeOption) {
-                                className = 'option-active';
-                            }
-                            return (
-                                <li className={className} key={optionName} onClick={onClick}>
-                                    {optionName}
-                                </li>
-                            );
-                        })}
-                    </ul>
-                );
-            } else {
-                optionList = (
-                    <div className="no-options">
-                        <em>No Option!</em>
-                    </div>
-                );
-            }
-        }
         return (
             <React.Fragment>
-                <div className="search">
-                    <input
-                        type="text"
-                        className="search-box"
-                        onChange={onChange}
-                        onKeyDown={onKeyDown}
-                        value={userInput}
-                    />
-                    <input type="submit" value="" className="search-btn" />
+                <div className="container">
+                    <h1
+                        style={{ textAlign: "center", padding: "1em" }}>
+                        Welcome to the Location Based Search Battle App
+                    </h1>
+                    <div className="search">
+                        <input
+                            type="text"
+                            className="search-box"
+                            placeholder="Search Battle Location Name"
+                            onChange={onChange}
+                            onKeyDown={onKeyDown}
+                            value={userInput}
+                        />
+                    </div>
+                    {
+                        this.state.showListComponent ? <List list={filteredOptions} /> : ""
+                    }
                 </div>
-                {optionList}
             </React.Fragment>
         );
     }
