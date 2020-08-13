@@ -36,9 +36,10 @@ app.disable('x-powered-by');
 // app.get("/", (req, res) => {
 //     res.json({ message: "API Working" });
 // });
-express.Router().use(function (req, res) {
-    res.sendFile(path.join(__dirname, '../public/index.html'));
-});
+
+// express.Router().use(function (req, res) {
+//     res.sendFile(path.join(__dirname, '../public/index.html'));
+// });
 console.log("Path", path.join(__dirname, '../build'))
 app.use(express.static(path.join(__dirname, '../build')));
 /**
