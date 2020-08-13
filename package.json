@@ -2,7 +2,7 @@
   "name": "battle-field",
   "version": "0.1.0",
   "engines": {
-    "node": "10.x"
+    "node": "12.x"
   },
   "private": true,
   "dependencies": {
@@ -19,7 +19,6 @@
   },
   "scripts": {
     "start": "react-scripts start",
-    "heroku-postbuild": "NPM_CONFIG_PRODUCTION=false npm install npm && run build",
     "build": "react-scripts build",
     "test": "react-scripts test",
     "eject": "react-scripts eject"
