@@ -6,7 +6,8 @@
     "node": "12.x"
   },
   "scripts": {
-    "start": "nodemon app.js",
+    "start": "node server.js",
+    "server": "nodemon server.js",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "keywords": [],
