@@ -13,7 +13,8 @@ export class Autocomplete extends Component {
         };
     }
     makeApiCall = searchInput => {
-        let searchUrl = `http://localhost:5000/searchBySearchString`;
+        // let searchUrl = `http://localhost:5000/searchBySearchString`;
+        let searchUrl = `https://obscure-woodland-97009.herokuapp.com/searchBySearchString`;
         const requestOptions = {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },

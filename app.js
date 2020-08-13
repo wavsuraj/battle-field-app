@@ -6,7 +6,7 @@ const router = require("./routes/battles"); //new addition
 const InitiateMongoServer = require("./config/db");
 
 
-let allowedOrigins = ['http://localhost:3000', 'http://localhost:5000'];
+let allowedOrigins = ['https://obscure-woodland-97009.herokuapp.com', 'http://localhost:3000', 'http://localhost:5000'];
 // Initiate Mongo Server
 InitiateMongoServer();
 
