@@ -40,7 +40,7 @@ express.Router().use(function (req, res) {
     res.sendFile(path.join(__dirname, '../public/index.html'));
 });
 
-app.use(express.static('./build'));
+app.use(express.static(path.join(__dirname, '../public')));
 /**
  * Router Middleware
  * Router - /user/*
