@@ -36,12 +36,11 @@ app.disable('x-powered-by');
 // app.get("/", (req, res) => {
 //     res.json({ message: "API Working" });
 // });
-
 express.Router().use(function (req, res) {
-    res.sendFile(path.join(__dirname, '../battle-field/public/index.html'));
+    res.sendFile(path.join(__dirname, '../public/index.html'));
 });
 
-app.use(express.static('../build'));
+app.use(express.static('./build'));
 /**
  * Router Middleware
  * Router - /user/*
