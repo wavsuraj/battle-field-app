@@ -114,6 +114,9 @@ router.post('/searchByMultiple', function (req, res) {
             })
 
     } else {
+        return res.status(400).json({
+            message: "Atleast one search parameter required"
+        });
 
     }
 
