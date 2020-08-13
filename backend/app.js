@@ -39,8 +39,8 @@ app.disable('x-powered-by');
 // express.Router().use(function (req, res) {
 //     res.sendFile(path.join(__dirname, '../public/index.html'));
 // });
-console.log("Path", path.join(__dirname, './build'))
-app.use(express.static(path.join(__dirname, './build')));
+console.log("Path", path.join(__dirname, '../build'))
+app.use(express.static(path.join(__dirname, '../build')));
 /**
  * Router Middleware
  * Router - /user/*
