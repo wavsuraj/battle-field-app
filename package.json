@@ -17,6 +17,7 @@
     "react-dom": "^16.13.1",
     "react-scripts": "^3.4.3"
   },
+  "proxy": "http://localhost:5000",
   "scripts": {
     "start": "react-scripts start",
     "heroku-postbuild": "NPM_CONFIG_PRODUCTION=false npm install npm && run build",
