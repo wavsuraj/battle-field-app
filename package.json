@@ -2,7 +2,7 @@
   "name": "battle-field",
   "version": "0.1.0",
   "engines": {
-    "node": "12.x"
+    "node": "10.x"
   },
   "private": true,
   "dependencies": {
